@@ -1,10 +1,6 @@
 from pyTsetlinMachineParallel.tm import MultiClassConvolutionalTsetlinMachine2D
 from time import time
 import numpy as np
-from itertools import chain
-import random
-from sklearn.metrics import confusion_matrix
-from logger import Logger
 import pickle
 import argparse
 

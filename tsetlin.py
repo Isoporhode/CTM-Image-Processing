@@ -1,8 +1,7 @@
-from pyTsetlinMachine.tm import MultiClassTsetlinMachine
+from pyTsetlinMachineParallel.tm import MultiClassTsetlinMachine
 from time import time
 import numpy as np
 from itertools import chain
-import random
 from sklearn.metrics import confusion_matrix
 from logger import Logger
 import argparse

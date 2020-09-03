@@ -1,10 +1,10 @@
-import keras
-from keras.datasets import cifar10
-import numpy as np
-import cv2 as cv
 import random
 import pickle
 import argparse
+from keras.datasets import cifar10
+import numpy as np
+import cv2 as cv
+
 
 global cifar_labels
 cifar_labels= {
@@ -95,8 +95,7 @@ print(labellabel)
 #
 #
 #!-------------------------!#
-def extract_images_from_label(image_array, label_array, label_to_extract,
-                              label_dict):
+def extract_images_from_label(image_array, label_array, label_to_extract):
     extracted_image_array = []
     extracted_label_array = []
     for i in range(len(label_to_extract)):
@@ -140,7 +139,7 @@ def grayscale_single_color(image):
 
 #!-------------------------!#
 #
-#
+# 
 #
 #!-------------------------!#
 def binarization(image, bin_flag):
@@ -351,10 +350,8 @@ def pickling(train_x_binarized, train_y, test_x_binarized, test_y,
 #!-------------------------!#
 def no_databank_binarization(bin_flag, col_typ, labels):
     #Extract target classes from dataset
-    (train_x, train_y) = extract_images_from_label(x_train, y_train, labels,
-                                                  cifar_labels)
-    (test_x, test_y) = extract_images_from_label(x_test, y_test, labels,
-                                                 cifar_labels)
+    (train_x, train_y) = extract_images_from_label(x_train, y_train, labels)
+    (test_x, test_y) = extract_images_from_label(x_test, y_test, labels)
 
     #Change color scheme
     color_train_x = change_image_color_scheme(train_x, col_typ)
@@ -379,10 +376,8 @@ def no_databank_binarization(bin_flag, col_typ, labels):
 #
 #!-------------------------!#
 def databank_binarization(bin_flag_1, bin_flag_2, col_typ, labels):
-    (train_x, train_y) = extract_images_from_label(x_train, y_train, labels,
-                                                   cifar_labels)
-    (test_x, test_y) = extract_images_from_label(x_test, y_test, labels,
-                                                 cifar_labels)
+    (train_x, train_y) = extract_images_from_label(x_train, y_train, labels)
+    (test_x, test_y) = extract_images_from_label(x_test, y_test, labels)
 
     color_train_x = change_image_color_scheme(train_x, col_typ)
     color_test_x = change_image_color_scheme(test_x, col_typ)
@@ -445,25 +440,25 @@ def run(col_type, bin_flag, labels, tsetlin_mode, enable_filterbank):
 run(COLORTYPE, BINARIZATION_FLAG, LABELS, tsetlin_mode, enable_filterbank)
 
 
-
-#Nasty addition to view images in both tsetlin modes
-if SHOW_IMAGES == 'YES':
-    for i in range(0,11):
-        if tsetlin_mode == 1:
-            img = binarization_stack(test_x[0], BINARIZATION_FLAG)
-            img_stack = img
-            for i in range(1,11):
-                img_stack = np.vstack((img_stack, binarization_stack(test_x[i], BINARIZATION_FLAG)))
-            cv.imshow('image',img_stack)
-            cv.waitKey()
-            break
-        elif tsetlin_mode == 3:
-            tsetlin_x=change_tsetlin_mode(test_x_binarized, COLORTYPE)
-            test1 = np.asarray((tsetlin_x[i]),np.uint8)
-            test1 = np.where(test1 == 1,255,0)
-            test2 = np.asarray(test1,np.uint8)
-            cv.imshow('image', test2)
-            print(train_y[i])
-#            print(test1)
-            cv.waitKey()
+# CURRENTLY BROKEN
+# Nasty addition to view images in both tsetlin modes
+# if SHOW_IMAGES == 'YES':
+#     for i in range(0,11):
+#         if tsetlin_mode == 1:
+#             img = binarization_stack(test_x[0], BINARIZATION_FLAG)
+#             img_stack = img
+#             for i in range(1,11):
+#                 img_stack = np.vstack((img_stack, binarization_stack(test_x[i], BINARIZATION_FLAG)))
+#             cv.imshow('image',img_stack)
+#             cv.waitKey()
+#             break
+#         elif tsetlin_mode == 3:
+#             tsetlin_x=change_tsetlin_mode(test_x_binarized, COLORTYPE)
+#             test1 = np.asarray((tsetlin_x[i]),np.uint8)
+#             test1 = np.where(test1 == 1,255,0)
+#             test2 = np.asarray(test1,np.uint8)
+#             cv.imshow('image', test2)
+#             print(train_y[i])
+# #            print(test1)
+#             cv.waitKey()
 

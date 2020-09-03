@@ -13,10 +13,9 @@ import os
 
 class Logger ():
     def __init__(self, name_dataset, x_dataset_train, ts_version, clauses, T, s, mask =
-                 'no mask', comments = "NA comments"):
+                 'no mask'):
         self.metadata = [[name_dataset, ts_version, clauses, T, s, mask],
             [np.asarray(x_dataset_train).shape]]
-        #self.metadata[0].append(mask)
         self.name_dataset = name_dataset[:-4]
         self.frames = []
         self.log = []
@@ -45,7 +44,6 @@ class Log_open():
         with open(log_file, 'rb') as f:
             self.log = pickle.load(f)
     def list_metadata(self):
-        #print(self.log)
         print("Metadata for the log", self.filename)
         print("Name:", self.log[0][0][0])
         print("Tsetlin type:", self.log[0][0][1])
@@ -53,8 +51,3 @@ class Log_open():
         print("T:", self.log[0][0][3])
         print("s:", self.log[0][0][4])
         print("Mask:", self.log[0][0][5])
-
-#dataset = [[3,4],[5,6]]
-#log = Logger("test_navn4_.pkl", dataset, "test_tsetlin", 2000, 50, 10.0, (2,3))
-#log.save_log()
-#log_opener = Log_open()
